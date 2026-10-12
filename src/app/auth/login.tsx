@@ -1,6 +1,9 @@
+import { httpClient } from "@/services/httpClient";
+import { useAuthStore } from "@/store/useAuthStore";
 import { nav } from "@/utils/navigationHelper";
 import { useState } from "react";
 import {
+    ActivityIndicator,
     Alert,
     StyleSheet,
     Text,
@@ -12,19 +15,37 @@ import {
 export default function LoginScreen() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  // 获取 Zustand 的登录方法
+  const setLogin = useAuthStore((state) => state.setLogin);
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
     // 简单的非空校验
     if (!username.trim() || !password.trim()) {
       Alert.alert("提示", "请输入用户名和密码");
       return;
     }
 
-    // 这里先不做真实请求，直接打印并跳转到首页
-    console.log("登录成功，用户名:", username);
+    setLoading(true);
 
-    // 使用 replace 跳转到首页，防止用户在首页按返回键又回到登录页
-    nav.toHome();
+    try {
+      const response: any = await httpClient.post("/auth/login", {
+        username,
+        password,
+      });
+
+      if (response.data.token) {
+        setLogin(response.data.token, response.data.userInfo);
+        nav.toHome();
+      } else {
+        Alert.alert("登录失败", "用户名或密码错误");
+      }
+    } catch (error) {
+      console.error("登录失败:", error);
+      Alert.alert("登录失败", "请检查用户名和密码是否正确");
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleRegister = () => {
@@ -54,11 +75,23 @@ export default function LoginScreen() {
         onChangeText={setPassword}
       />
 
-      <TouchableOpacity style={styles.button} onPress={handleLogin}>
-        <Text style={styles.buttonText}>登录</Text>
+      <TouchableOpacity
+        style={[styles.button, loading && styles.buttonDisabled]}
+        onPress={handleLogin}
+        disabled={loading}
+      >
+        {loading ? (
+          <ActivityIndicator color="#fff" />
+        ) : (
+          <Text style={styles.buttonText}>登录</Text>
+        )}
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.button} onPress={handleRegister}>
+      <TouchableOpacity
+        style={[styles.button, loading && styles.buttonDisabled]}
+        onPress={handleRegister}
+        disabled={loading}
+      >
         <Text style={styles.buttonText}>注册</Text>
       </TouchableOpacity>
     </View>
@@ -101,5 +134,8 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontSize: 18,
     fontWeight: "bold",
+  },
+  buttonDisabled: {
+    backgroundColor: "#ccc",
   },
 });
