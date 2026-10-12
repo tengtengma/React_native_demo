@@ -8,7 +8,8 @@
     "scheme": "reactnativedemo",
     "userInterfaceStyle": "automatic",
     "ios": {
-      "icon": "./assets/expo.icon"
+      "icon": "./assets/expo.icon",
+      "bundleIdentifier": "com.martin-ma.react-native-demo"
     },
     "android": {
       "adaptiveIcon": {
@@ -17,11 +18,13 @@
         "backgroundImage": "./assets/images/android-icon-background.png",
         "monochromeImage": "./assets/images/android-icon-monochrome.png"
       },
-      "predictiveBackGestureEnabled": false
+      "predictiveBackGestureEnabled": false,
+      "package": "com.martin_ma.react_native_demo"
     },
     "web": {
       "output": "static",
-      "favicon": "./assets/images/favicon.png"
+      "favicon": "./assets/images/favicon.png",
+      "bundler": "metro"
     },
     "plugins": [
       "expo-router",
@@ -37,6 +40,9 @@
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
-    }
-  }
+    },
+    "sdkVersion": "57.0.0",
+    "entryPoint": ".vscode/exponentIndex.js"
+  },
+  "name": "react_native_demo"
 }

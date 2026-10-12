@@ -1,0 +1,105 @@
+import { nav } from "@/utils/navigationHelper";
+import { useState } from "react";
+import {
+    Alert,
+    StyleSheet,
+    Text,
+    TextInput,
+    TouchableOpacity,
+    View,
+} from "react-native";
+
+export default function LoginScreen() {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleLogin = () => {
+    // 简单的非空校验
+    if (!username.trim() || !password.trim()) {
+      Alert.alert("提示", "请输入用户名和密码");
+      return;
+    }
+
+    // 这里先不做真实请求，直接打印并跳转到首页
+    console.log("登录成功，用户名:", username);
+
+    // 使用 replace 跳转到首页，防止用户在首页按返回键又回到登录页
+    nav.toHome();
+  };
+
+  const handleRegister = () => {
+    // 跳转到注册页面
+    nav.push("/auth/register");
+  };
+
+  return (
+    <View style={styles.container}>
+      <Text style={styles.title}>欢迎登录</Text>
+
+      <TextInput
+        style={styles.input}
+        placeholder="请输入用户名"
+        placeholderTextColor="#888"
+        value={username}
+        onChangeText={setUsername}
+        autoCapitalize="none"
+      />
+
+      <TextInput
+        style={styles.input}
+        placeholder="请输入密码"
+        placeholderTextColor="#888"
+        secureTextEntry
+        value={password}
+        onChangeText={setPassword}
+      />
+
+      <TouchableOpacity style={styles.button} onPress={handleLogin}>
+        <Text style={styles.buttonText}>登录</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity style={styles.button} onPress={handleRegister}>
+        <Text style={styles.buttonText}>注册</Text>
+      </TouchableOpacity>
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    padding: 20,
+    backgroundColor: "#fff",
+  },
+  title: {
+    fontSize: 28,
+    fontWeight: "bold",
+    marginBottom: 30,
+    textAlign: "center",
+    color: "#333",
+  },
+  input: {
+    height: 50,
+    borderWidth: 1,
+    borderColor: "#ddd",
+    borderRadius: 8,
+    paddingHorizontal: 15,
+    marginBottom: 15,
+    fontSize: 16,
+    backgroundColor: "#fafafa",
+  },
+  button: {
+    height: 50,
+    backgroundColor: "#007AFF",
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 8,
+    marginTop: 10,
+  },
+  buttonText: {
+    color: "#fff",
+    fontSize: 18,
+    fontWeight: "bold",
+  },
+});
