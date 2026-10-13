@@ -9,7 +9,12 @@
     "userInterfaceStyle": "automatic",
     "ios": {
       "icon": "./assets/expo.icon",
-      "bundleIdentifier": "com.martin-ma.react-native-demo"
+      "bundleIdentifier": "com.martin-ma.react-native-demo",
+      "infoPlist": {
+        "NSAppTransportSecurity": {
+          "NSAllowsArbitraryLoads": true
+        }
+      }
     },
     "android": {
       "adaptiveIcon": {
@@ -41,8 +46,7 @@
       "typedRoutes": true,
       "reactCompiler": true
     },
-    "sdkVersion": "57.0.0",
-    "entryPoint": ".vscode/exponentIndex.js"
+    "sdkVersion": "57.0.0"
   },
   "name": "react_native_demo"
 }

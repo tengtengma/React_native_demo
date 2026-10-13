@@ -7,12 +7,18 @@ export const nav = {
   // 去登录页
   toLogin: () => router.replace("/auth/login"),
 
-  // 去详情页（带参数）
-  toDetail: (id: string) => router.push(`/home/homeDetail?id=${id}`),
-
   // 通用返回
   back: () => router.back(),
 
-  // 通用跳转
-  push: (path: string) => router.push(path as any),
+  // 通用跳转（支持传路径和参数对象）
+  push: (path: string, params?: Record<string, any>) => {
+    if (params) {
+      router.push({
+        pathname: path as any,
+        params: params,
+      });
+    } else {
+      router.push(path as any);
+    }
+  },
 };

@@ -29,7 +29,7 @@ export default function LoginScreen() {
     setLoading(true);
 
     try {
-      const response: any = await httpClient.post("/auth/login", {
+      const response: any = await httpClient.post("/Auth/login", {
         username,
         password,
       });

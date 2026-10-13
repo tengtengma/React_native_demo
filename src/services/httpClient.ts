@@ -4,7 +4,7 @@ import { router } from "expo-router";
 
 // 1. 创建 axios 实例
 export const httpClient = axios.create({
-  baseURL: "https://api.yourdomain.com", // 替换为你的实际后端 API 基础地址
+  baseURL: "http://192.168.68.55:5177/api",
   timeout: 10000, // 请求超时时间（10秒）
   headers: {
     "Content-Type": "application/json",
